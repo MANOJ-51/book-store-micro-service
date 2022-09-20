@@ -88,7 +88,7 @@ public class UserController {
 	 * Purpose:Creating method to retrieve user
 	 * 
 	 * @author Manoj
-	 * @Param phone number
+	 * @Param token,userId
 	 */
 	@PostMapping("/retrieveUser")
 	public ResponseEntity<ResponseClass> retrieveUser(@RequestHeader String token, @RequestParam Long userId) {
@@ -100,7 +100,7 @@ public class UserController {
 	 * Purpose:Creating method to permanent Delete user
 	 * 
 	 * @author Manoj
-	 * @Param phone number
+	 * @Param token,userId
 	 */
 	@DeleteMapping("/deleteUserPermanent")
 	public ResponseEntity<ResponseClass> deleteUserPermanent(@RequestHeader String token, @RequestParam Long userId) {
@@ -166,5 +166,16 @@ public class UserController {
 	public ResponseEntity<ResponseClass> verifyUserByOtp(@RequestHeader String token, @RequestParam int userOtp) {
 		ResponseClass responseClass = iUserService.verifyUserByOtp(token, userOtp);
 		return new ResponseEntity<>(responseClass, HttpStatus.OK);
+	}
+	
+	/**
+	 * Purpose:Creating method to validate user using token
+	 * 
+	 * @author Manoj
+	 * @Param token
+	 */
+	@GetMapping("/validate/{token}")
+	public boolean validate(@PathVariable String token) {
+		return iUserService.validateToken(token);
 	}
 }
