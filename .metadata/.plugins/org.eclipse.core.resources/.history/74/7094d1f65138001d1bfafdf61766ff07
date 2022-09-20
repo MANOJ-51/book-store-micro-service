@@ -1,0 +1,5 @@
+package com.bridgelabz.userregistration.service;
+
+public class UserService {
+
+}

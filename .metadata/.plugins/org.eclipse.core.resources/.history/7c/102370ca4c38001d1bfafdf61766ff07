@@ -1,0 +1,50 @@
+package com.bridgelabz.userregistration.model;
+
+import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.bridgelabz.userregistration.dto.UserDTO;
+
+import lombok.Data;
+
+
+/**
+ * Purpose:Creating model for user
+ * 
+ * @author Manoj
+ * @Param all the required variables to save in repository Version 1.0
+ */
+@Entity
+@Data
+@Table(name = "user_details")
+public class UserModel {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long userId;
+	private String name;
+	private String email;
+	private String password;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
+	private Boolean isActive;
+	private Boolean isDelete;
+	private String dateOfBirth;
+	private String phoneNumber;
+	
+	public UserModel(UserDTO userDTO) {
+		this.name = userDTO.getName();
+		this.email = userDTO.getEmail();
+		this.password = userDTO.getPassword();
+		this.dateOfBirth = userDTO.getDateOfBirth();
+		this.phoneNumber = userDTO.getPhoneNumber();
+	}
+
+	public UserModel() {
+
+	}
+}

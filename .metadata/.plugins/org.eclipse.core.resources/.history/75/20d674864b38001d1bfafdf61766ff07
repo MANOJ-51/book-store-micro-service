@@ -1,0 +1,5 @@
+package com.bridgelabz.userregistration.exceptions;
+
+public class ExceptionHandler {
+
+}

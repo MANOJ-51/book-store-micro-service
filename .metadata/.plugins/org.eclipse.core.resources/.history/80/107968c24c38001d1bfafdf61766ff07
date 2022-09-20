@@ -1,0 +1,5 @@
+package com.bridgelabz.userregistration.model;
+
+public class UserModel {
+
+}
