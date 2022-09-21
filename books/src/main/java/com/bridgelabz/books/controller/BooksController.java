@@ -128,8 +128,8 @@ public class BooksController {
 	 * @author Manoj
 	 * @Param token,id,new quantity
 	 */
-	@PutMapping("/updateQuantity/{bookId}/{newQuantity}")
-	public ResponseEntity<ResponseClass> updateQuantity(@PathVariable int newQuantity, @PathVariable Long bookId) {
+	@PutMapping("/updateQuantity/{bookId}")
+	public ResponseEntity<ResponseClass> updateQuantity(@RequestParam int newQuantity, @PathVariable Long bookId) {
 		ResponseClass responseClass = iBooksService.updateQuantity(bookId, newQuantity);
 		return new ResponseEntity<>(responseClass, HttpStatus.OK);
 	}
@@ -140,8 +140,8 @@ public class BooksController {
 	 * @author Manoj
 	 * @Param token,id,new quantity
 	 */
-	@PutMapping("/retrieveQuantity/{bookId}/{newQuantity}")
-	public ResponseEntity<ResponseClass> retrieveQuantity(@PathVariable int newQuantity, @PathVariable Long bookId) {
+	@PutMapping("/retrieveQuantity/{bookId}")
+	public ResponseEntity<ResponseClass> retrieveQuantity(@RequestParam int newQuantity, @PathVariable Long bookId) {
 		ResponseClass responseClass = iBooksService.retrieveQuantity(bookId, newQuantity);
 		return new ResponseEntity<>(responseClass, HttpStatus.OK);
 	}

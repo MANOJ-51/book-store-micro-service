@@ -73,10 +73,12 @@ public class OrderService implements IOrderService {
 				
 				orderModel.setAddress(addressList);
 				iOrderRepository.save(orderModel);
+				
 				Long id = orderModel.getBookId();
 				int quantity = orderModel.getQuantity();
-			    restTemplate.put("https://book-service/books/updateQuantity/"+id+"/"+quantity,ResponseClass.class);
-				return new ResponseClass(200, "success", orderModel);
+			    restTemplate.put("https://book-service/books/updateQuantity/"+id+"?newQuantity="+quantity,ResponseClass.class);
+				
+			    return new ResponseClass(200, "success", orderModel);
 			}
 		}
 		throw new CustomExceptions(400, "token not valid");
@@ -102,7 +104,7 @@ public class OrderService implements IOrderService {
 					
 					Long id = isOrderIdPresent.get().getBookId();
 					int quantity = isOrderIdPresent.get().getQuantity();
-					restTemplate.put("https://book-service/books/retrieveQuantity/"+id+"/"+quantity,ResponseClass.class);
+					restTemplate.put("https://book-service/books/retrieveQuantity/"+id+"?newQuantity="+quantity,ResponseClass.class);
 					return new ResponseClass(200, "success", isOrderIdPresent.get());
 				}
 			}
