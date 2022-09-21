@@ -178,4 +178,16 @@ public class UserController {
 	public boolean validate(@PathVariable String token) {
 		return iUserService.validateToken(token);
 	}
+	
+	/**
+	 * Purpose:Creating method to add subscription
+	 * 
+	 * @author Manoj
+	 * @Param token
+	 */
+	@PutMapping("/buySubscprition")
+	public ResponseEntity<ResponseClass> buySubscprition(@RequestHeader String token) {
+		ResponseClass responseClass = iUserService.buySubscprition(token);
+		return new ResponseEntity<>(responseClass, HttpStatus.OK);
+	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import javax.validation.Valid;
 import com.bridgelabz.books.dto.BooksDTO;
 import com.bridgelabz.books.model.BooksModel;
+import com.bridgelabz.books.utill.BookResponse;
 import com.bridgelabz.books.utill.ResponseClass;
 
 /**
@@ -25,5 +26,11 @@ public interface IBooksService {
 	ResponseClass changeQuantity(String token, Long bookId, @Valid int newQuantity);
 
 	ResponseClass changePrice(String token, Long bookId, @Valid double newPrice);
+
+	BookResponse validateBook(Long bookId);
+
+	ResponseClass updateQuantity(Long bookId, @Valid int newQuantity);
+
+	ResponseClass retrieveQuantity(Long bookId, int newQuantity);
 
 }

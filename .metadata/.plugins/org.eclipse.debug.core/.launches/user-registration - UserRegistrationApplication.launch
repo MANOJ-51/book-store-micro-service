@@ -8,11 +8,11 @@
     </listAttribute>
     <mapAttribute key="org.eclipse.debug.core.environmentVariables">
         <mapEntry key="Email" value="m9a9noj@gmail.com"/>
-        <mapEntry key="activation" value="http://localhost:5666/user/activateUser/"/>
+        <mapEntry key="activation" value="http://user-service/user/activateUser/"/>
         <mapEntry key="emailpwd" value="zazphselgbdgtjsy"/>
         <mapEntry key="jdbcPassword" value="Manoj@451"/>
         <mapEntry key="jdbcUserName" value="root"/>
-        <mapEntry key="url" value="http://localhost:5666/user/changeAdminPassword/"/>
+        <mapEntry key="url" value="http://user-service/user/changeAdminPassword/"/>
     </mapAttribute>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>

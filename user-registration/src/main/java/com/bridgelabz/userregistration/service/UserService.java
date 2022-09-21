@@ -1,6 +1,8 @@
 package com.bridgelabz.userregistration.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -293,6 +295,27 @@ public class UserService implements IUserService {
 				mailService.send(isUserPresent.get().getEmail(), body, subject);
 				return new ResponseClass(200, "success", isUserPresent.get());
 			}
+		}
+		throw new CustomExceptions(400, "Invalid Token");
+	}
+
+	/**
+	 * Purpose:Creating method to add subscription
+	 * 
+	 * @author Manoj
+	 * @Param token
+	 */
+	@Override
+	public ResponseClass buySubscprition(String token) {
+		Long userId = tokenUtill.decodeToken(token);
+		Optional<UserModel> isUserPresent = iUserRepository.findById(userId);
+		if (isUserPresent.isPresent()) {
+			isUserPresent.get().setPurchaseDate(LocalDate.now());
+		    iUserRepository.save(isUserPresent.get());
+		    LocalDate addedMonths = isUserPresent.get().getPurchaseDate().plusMonths(12);
+		    isUserPresent.get().setExpiryDate(addedMonths);
+		    iUserRepository.save(isUserPresent.get());
+		    return new ResponseClass(200, "success", isUserPresent.get());
 		}
 		throw new CustomExceptions(400, "Invalid Token");
 	}

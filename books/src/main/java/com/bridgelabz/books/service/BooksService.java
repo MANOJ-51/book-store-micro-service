@@ -13,6 +13,7 @@ import com.bridgelabz.books.dto.BooksDTO;
 import com.bridgelabz.books.exception.CustomExceptions;
 import com.bridgelabz.books.model.BooksModel;
 import com.bridgelabz.books.repository.IBooksRepository;
+import com.bridgelabz.books.utill.BookResponse;
 import com.bridgelabz.books.utill.ResponseClass;
 import com.bridgelabz.books.utill.TokenUtill;
 
@@ -154,5 +155,56 @@ public class BooksService implements IBooksService {
 			}
 		}
 		throw new CustomExceptions(400, "token not valid");
+	}
+
+	/**
+	 * Purpose:Creating method to validate book using token and id
+	 * 
+	 * @author Manoj
+	 * @Param token
+	 */
+	@Override
+	public BookResponse validateBook(Long bookId) {
+		Optional<BooksModel> isBookIdPresent = iBooksRepository.findById(bookId);
+		if (isBookIdPresent.isPresent()) {
+			return new BookResponse(200, "success", isBookIdPresent.get());
+		}
+		throw new CustomExceptions(400, "token not valid");
+	}
+
+	/**
+	 * Purpose:Creating method to change book quantity
+	 * 
+	 * @author Manoj
+	 * @Param token,id,new quantity
+	 */
+	@Override
+	public ResponseClass updateQuantity(Long bookId, @Valid int newQuantity) {
+		Optional<BooksModel> isBookIdPresent = iBooksRepository.findById(bookId);
+		if (isBookIdPresent.isPresent()) {
+			int changedQuantity =isBookIdPresent.get().getQuantity() - newQuantity;
+			isBookIdPresent.get().setQuantity(changedQuantity);
+			iBooksRepository.save(isBookIdPresent.get());
+			return new ResponseClass(200, "success", isBookIdPresent.get());
+		}
+		throw new CustomExceptions(400, "no book found");
+	}
+
+	/**
+	 * Purpose:Creating method to change book quantity
+	 * 
+	 * @author Manoj
+	 * @Param token,id,new quantity
+	 */
+	@Override
+	public ResponseClass retrieveQuantity(Long bookId, int newQuantity) {
+		Optional<BooksModel> isBookIdPresent = iBooksRepository.findById(bookId);
+		if (isBookIdPresent.isPresent()) {
+			int changedQuantity =isBookIdPresent.get().getQuantity() + newQuantity;
+			isBookIdPresent.get().setQuantity(changedQuantity);
+			iBooksRepository.save(isBookIdPresent.get());
+			return new ResponseClass(200, "success", isBookIdPresent.get());
+		}
+		throw new CustomExceptions(400, "no book found");
 	}
 }

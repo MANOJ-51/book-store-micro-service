@@ -38,4 +38,6 @@ public interface IUserService {
 	ResponseClass activateUserByOtp(String token);
 
 	ResponseClass verifyUserByOtp(String token, int userOtp);
+
+	ResponseClass buySubscprition(String token);
 }

@@ -1,14 +1,16 @@
 package com.bridgelabz.userregistration.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.springframework.format.annotation.DateTimeFormat;
+
 import com.bridgelabz.userregistration.dto.UserDTO;
+
 import lombok.Data;
 
 /**
@@ -36,10 +38,8 @@ public class UserModel {
 	private Boolean isDelete;
 	private String dateOfBirth;
 	private int otp;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date purchaseDate;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date expiryDate;
+	private LocalDate purchaseDate;
+	private LocalDate expiryDate;
 
 	public UserModel(UserDTO userDTO) {
 		this.firstName = userDTO.getFirstName();

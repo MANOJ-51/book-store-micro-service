@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.books.dto.BooksDTO;
 import com.bridgelabz.books.model.BooksModel;
 import com.bridgelabz.books.service.IBooksService;
+import com.bridgelabz.books.utill.BookResponse;
 import com.bridgelabz.books.utill.ResponseClass;
 
 /**
@@ -106,6 +107,42 @@ public class BooksController {
 	public ResponseEntity<ResponseClass> changePrice(@RequestHeader String token, @Valid @RequestParam double newPrice,
 			@PathVariable Long bookId) {
 		ResponseClass responseClass = iBooksService.changePrice(token, bookId, newPrice);
+		return new ResponseEntity<>(responseClass, HttpStatus.OK);
+	}
+	
+	/**
+	 * Purpose:Creating method to validate book using token and id
+	 * 
+	 * @author Manoj
+	 * @Param token
+	 */
+	@GetMapping("/validateBook/{bookId}")
+	public ResponseEntity<BookResponse> validateBook(@PathVariable Long bookId) {
+		BookResponse bookResponse = iBooksService.validateBook(bookId);
+		return new ResponseEntity<>(bookResponse, HttpStatus.OK);
+	}
+	
+	/**
+	 * Purpose:Creating method to change book quantity
+	 * 
+	 * @author Manoj
+	 * @Param token,id,new quantity
+	 */
+	@PutMapping("/updateQuantity/{bookId}/{newQuantity}")
+	public ResponseEntity<ResponseClass> updateQuantity(@PathVariable int newQuantity, @PathVariable Long bookId) {
+		ResponseClass responseClass = iBooksService.updateQuantity(bookId, newQuantity);
+		return new ResponseEntity<>(responseClass, HttpStatus.OK);
+	}
+	
+	/**
+	 * Purpose:Creating method to change book quantity
+	 * 
+	 * @author Manoj
+	 * @Param token,id,new quantity
+	 */
+	@PutMapping("/retrieveQuantity/{bookId}/{newQuantity}")
+	public ResponseEntity<ResponseClass> retrieveQuantity(@PathVariable int newQuantity, @PathVariable Long bookId) {
+		ResponseClass responseClass = iBooksService.retrieveQuantity(bookId, newQuantity);
 		return new ResponseEntity<>(responseClass, HttpStatus.OK);
 	}
 }
