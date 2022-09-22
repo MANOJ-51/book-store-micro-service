@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -34,15 +36,16 @@ public class OrderModel {
 	private boolean isCancel;
 	private double price;
 	private Long bookId;
+	private Long cartId;
 	private int quantity;
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<AddressModel> address;
-	
+
 	public OrderModel(OrderDTO orderDTO) {
 		this.bookId = orderDTO.getBookId();
 		this.quantity = orderDTO.getQuantity();
 	}
-	
+
 	public OrderModel() {
 		super();
 	}

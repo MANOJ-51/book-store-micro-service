@@ -11,6 +11,7 @@ import com.bridgelabz.cart.exception.CustomExceptions;
 import com.bridgelabz.cart.model.CartModel;
 import com.bridgelabz.cart.repository.ICartRepository;
 import com.bridgelabz.cart.utill.BookResponse;
+import com.bridgelabz.cart.utill.CartResponce;
 import com.bridgelabz.cart.utill.ResponseClass;
 import com.bridgelabz.cart.utill.TokenUtill;
 
@@ -34,6 +35,7 @@ public class CartService implements ICartService {
 
 	/**
 	 * Purpose:Creating method to add to cart
+	 * 
 	 * @author Manoj
 	 * @Param dto,token
 	 */
@@ -47,9 +49,11 @@ public class CartService implements ICartService {
 			if (!isBookPresent.equals(null)) {
 				CartModel cartModel = new CartModel(cartDto);
 				cartModel.setUserId(usersId);
-				iCartRepository.save(cartModel);
+				cartModel.setBookId(bookId);
+				
 				double total = isBookPresent.getBooks().getPrice() * cartModel.getUserQuantity();
 				cartModel.setTotalPrice(total);
+				iCartRepository.save(cartModel);
 				return new ResponseClass(200, "success", cartModel);
 			}
 		}
@@ -74,8 +78,8 @@ public class CartService implements ICartService {
 				if (isCartIdPresent.isPresent()) {
 					isCartIdPresent.get().setUserQuantity(newUserQuantity);
 					iCartRepository.save(isCartIdPresent.get());
-					BookResponse isBookPresent = restTemplate
-							.getForObject(System.getenv("findBook") + isCartIdPresent.get().getBookId(), BookResponse.class);
+					BookResponse isBookPresent = restTemplate.getForObject(
+							System.getenv("findBook") + isCartIdPresent.get().getBookId(), BookResponse.class);
 					if (!isBookPresent.equals(null)) {
 						double total = isCartIdPresent.get().getUserQuantity() * isBookPresent.getBooks().getPrice();
 						isCartIdPresent.get().setTotalPrice(total);
@@ -98,16 +102,12 @@ public class CartService implements ICartService {
 	public ResponseClass deleteCart(String token, Long cartId) {
 		boolean isUserPresent = restTemplate.getForObject(System.getenv("tokenCheck") + token, Boolean.class);
 		if (isUserPresent) {
-			Long usersId = tokenUtill.decodeToken(token);
-			Optional<CartModel> isUseridPresent = iCartRepository.findByUserId(usersId);
-			if (isUseridPresent.isPresent()) {
 				Optional<CartModel> isCartIdPresent = iCartRepository.findById(cartId);
 				if (isCartIdPresent.isPresent()) {
 					iCartRepository.delete(isCartIdPresent.get());
 					return new ResponseClass(200, "success", isCartIdPresent.get());
 				}
 			}
-		}
 		throw new CustomExceptions(400, "token not valid");
 	}
 
@@ -134,13 +134,47 @@ public class CartService implements ICartService {
 	 * Purpose:Creating method to get List of all cart
 	 * 
 	 * @author Manoj
-	 * @Param 
+	 * @Param
 	 */
 	@Override
-	public List<CartModel> getAllList() {
-		List<CartModel> getList = iCartRepository.findAll();
-		if (getList.size() > 0) {
-			return getList;
+	public List<CartModel> getAllList(String token) {
+		boolean isUserPresent = restTemplate.getForObject(System.getenv("tokenCheck") + token, Boolean.class);
+		if (isUserPresent) {
+			List<CartModel> getList = iCartRepository.findAll();
+			if (getList.size() > 0) {
+				return getList;
+			}
+		}
+		throw new CustomExceptions(400, "no items in cart");
+	}
+
+	/**
+	 * Purpose:Creating method to check cart
+	 * 
+	 * @author Manoj
+	 * @Param
+	 */
+	@Override
+	public CartResponce checkCart(Long cartId) {
+		Optional<CartModel> isCartIdPresent = iCartRepository.findById(cartId);
+		if (isCartIdPresent.isPresent()) {
+			return new CartResponce(200, "success", isCartIdPresent.get());
+		}
+		throw new CustomExceptions(400, "no items in cart");
+	}
+
+	/**
+	 * Purpose:Creating method to remove cart
+	 * 
+	 * @author Manoj
+	 * @Param
+	 */
+	@Override
+	public CartResponce removeCart(Long cartId) {
+		Optional<CartModel> isCartIdPresent = iCartRepository.findById(cartId);
+		if (isCartIdPresent.isPresent()) {
+			iCartRepository.delete(isCartIdPresent.get());
+			return new CartResponce(200, "success", isCartIdPresent.get());
 		}
 		throw new CustomExceptions(400, "no items in cart");
 	}

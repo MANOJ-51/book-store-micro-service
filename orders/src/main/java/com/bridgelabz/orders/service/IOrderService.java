@@ -16,12 +16,12 @@ import com.bridgelabz.orders.utill.ResponseClass;
  */
 public interface IOrderService {
 
-	ResponseClass placeOrder(String token, List<Long> addressId ,@Valid OrderDTO orderDto);
+	ResponseClass placeOrder(String token, List<Long> addressId ,@Valid OrderDTO orderDto,Long cartsId);
 
 	ResponseClass cancleOrder(String token, Long orderId);
 
 	List<OrderModel> getList(String token);
 
-	List<OrderModel> getAllList();
+	List<OrderModel> getAllList(String token);
 
 }

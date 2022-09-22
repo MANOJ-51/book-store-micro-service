@@ -42,8 +42,8 @@ public class OrderController {
 	 */
 	@PostMapping("/placeOrder")
 	public ResponseEntity<ResponseClass> placeOrder(@RequestHeader String token,@RequestParam List<Long> addressId,
-			@RequestBody @Valid OrderDTO orderDto) {
-		ResponseClass responseClass = iOrderService.placeOrder(token,addressId, orderDto);
+			@RequestBody @Valid OrderDTO orderDto,@RequestParam Long cartsId) {
+		ResponseClass responseClass = iOrderService.placeOrder(token,addressId, orderDto,cartsId);
 		return new ResponseEntity<>(responseClass, HttpStatus.OK);
 	}
 
@@ -78,8 +78,8 @@ public class OrderController {
 	 * @Param
 	 */
 	@GetMapping("/orderList")
-	public ResponseEntity<List<?>> getAllList() {
-		List<OrderModel> responseClass = iOrderService.getAllList();
+	public ResponseEntity<List<?>> getAllList(@RequestHeader String token) {
+		List<OrderModel> responseClass = iOrderService.getAllList( token);
 		return new ResponseEntity<>(responseClass, HttpStatus.OK);
 	}
 }

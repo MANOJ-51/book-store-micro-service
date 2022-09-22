@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.cart.dto.CartDTO;
 import com.bridgelabz.cart.model.CartModel;
 import com.bridgelabz.cart.service.ICartService;
+import com.bridgelabz.cart.utill.CartResponce;
 import com.bridgelabz.cart.utill.ResponseClass;
 
 /**
@@ -91,8 +92,32 @@ public class CartController {
 	 * @Param 
 	 */
 	@GetMapping("/cartList")
-	public ResponseEntity<List<?>> getAllList() {
-		List<CartModel> responseClass = iCartService.getAllList();
+	public ResponseEntity<List<?>> getAllList(@RequestHeader String token) {
+		List<CartModel> responseClass = iCartService.getAllList(token);
 		return new ResponseEntity<>(responseClass, HttpStatus.OK);
+	}
+	
+	/**
+	 * Purpose:Creating method to check cart
+	 * 
+	 * @author Manoj
+	 * @Param 
+	 */
+	@GetMapping("/cartCheck/{cartId}")
+	public ResponseEntity<CartResponce> CartCheck (@PathVariable Long cartId){
+		CartResponce cartResponce = iCartService.checkCart(cartId);
+		return new ResponseEntity<>(cartResponce, HttpStatus.OK);
+	}
+	
+	/**
+	 * Purpose:Creating method to remove cart
+	 * 
+	 * @author Manoj
+	 * @Param 
+	 */
+	@DeleteMapping("/removeCart/{cartId}")
+	public ResponseEntity<CartResponce> removeCart (@PathVariable Long cartId){
+		CartResponce cartResponce = iCartService.removeCart(cartId);
+		return new ResponseEntity<>(cartResponce, HttpStatus.OK);
 	}
 }

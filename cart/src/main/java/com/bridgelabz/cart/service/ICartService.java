@@ -4,6 +4,7 @@ import java.util.List;
 import javax.validation.Valid;
 import com.bridgelabz.cart.dto.CartDTO;
 import com.bridgelabz.cart.model.CartModel;
+import com.bridgelabz.cart.utill.CartResponce;
 import com.bridgelabz.cart.utill.ResponseClass;
 
 /**
@@ -21,6 +22,10 @@ public interface ICartService {
 
 	List<CartModel> getList(String token);
 
-	List<CartModel> getAllList();
+	List<CartModel> getAllList(String token);
+
+	CartResponce checkCart(Long cartId);
+
+	CartResponce removeCart(Long cartId);
 
 }

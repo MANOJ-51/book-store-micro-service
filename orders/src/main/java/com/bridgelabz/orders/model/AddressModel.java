@@ -1,10 +1,13 @@
 package com.bridgelabz.orders.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -34,9 +37,9 @@ public class AddressModel {
 	private String city;
 	private String landMark;
 	private String type;
-	@ManyToOne
+	@ManyToMany
 	@JoinColumn(name = "order_Id")
-	private OrderModel orders;
+	private List<OrderModel> orders;
 
 	public AddressModel(AddressDTO addressDto) {
 		this.name = addressDto.getName();

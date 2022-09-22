@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.bridgelabz.userregistration.utill.ResponseClass"/>
-    <fullyQualifiedTypeName name="com.bridgelabz.userregistration.dto.UserDTO"/>
-    <fullyQualifiedTypeName name="com.bridgelabz.userregistration.model.UserModel"/>
     <fullyQualifiedTypeName name="javax.validation.constraints.NotBlank"/>
     <fullyQualifiedTypeName name="com.bridgelabz.userregistration.service.IUserService"/>
     <fullyQualifiedTypeName name="org.springframework.format.annotation.DateTimeFormat"/>
@@ -24,7 +21,6 @@
     <fullyQualifiedTypeName name="org.springframework.scheduling.annotation.EnableScheduling"/>
     <fullyQualifiedTypeName name="com.bridgelabz.cart.dto.CartDTO"/>
     <fullyQualifiedTypeName name="com.bridgelabz.cart.repository.ICartRepository"/>
-    <fullyQualifiedTypeName name="com.bridgelabz.cart.service.ICartService"/>
     <fullyQualifiedTypeName name="com.bridgelabz.books.utill.BookResponse"/>
     <fullyQualifiedTypeName name="lombok.Data"/>
     <fullyQualifiedTypeName name="com.bridgelabz.cart.utill.BookResponse"/>
@@ -45,11 +41,6 @@
     <fullyQualifiedTypeName name="com.bridgelabz.orders.model.AddressModel"/>
     <fullyQualifiedTypeName name="java.util.Optional"/>
     <fullyQualifiedTypeName name="javax.persistence.OneToOne"/>
-    <fullyQualifiedTypeName name="javax.persistence.OneToMany"/>
-    <fullyQualifiedTypeName name="javax.persistence.ManyToOne"/>
-    <fullyQualifiedTypeName name="javax.persistence.CascadeType"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
     <fullyQualifiedTypeName name="javax.validation.constraints.Max"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
@@ -58,4 +49,15 @@
     <fullyQualifiedTypeName name="java.awt.print.Book"/>
     <fullyQualifiedTypeName name="com.bridgelabz.orders.utill.BookResponse"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
+    <fullyQualifiedTypeName name="com.bridgelabz.cart.utill.CartResponce"/>
+    <fullyQualifiedTypeName name="com.bridgelabz.cart.service.ICartService"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.lang.Object"/>
+    <fullyQualifiedTypeName name="javax.persistence.ManyToOne"/>
+    <fullyQualifiedTypeName name="javax.persistence.OneToMany"/>
+    <fullyQualifiedTypeName name="javax.persistence.CascadeType"/>
+    <fullyQualifiedTypeName name="javax.persistence.ManyToMany"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.DeleteMapping"/>
 </qualifiedTypeNameHistroy>

@@ -38,7 +38,7 @@ public class OrderService implements IOrderService {
 
 	@Autowired
 	RestTemplate restTemplate;
-	
+
 	@Autowired
 	IAddressRepository iAddressRepository;
 
@@ -49,7 +49,7 @@ public class OrderService implements IOrderService {
 	 * @Param dto,token
 	 */
 	@Override
-	public ResponseClass placeOrder(String token,List<Long> addressId, @Valid OrderDTO orderDto) {
+	public ResponseClass placeOrder(String token, List<Long> addressId, @Valid OrderDTO orderDto, Long cartsId) {
 		boolean isUserPresent = restTemplate.getForObject(System.getenv("tokenCheck") + token, Boolean.class);
 		if (isUserPresent) {
 			Long usersId = tokenUtill.decodeToken(token);
@@ -62,7 +62,13 @@ public class OrderService implements IOrderService {
 				orderModel.setPrice(total);
 				orderModel.setUserId(usersId);
 				orderModel.setCancel(false);
-				
+
+				Object isCartPresent = restTemplate.getForObject("http://cart-service/cart/cartCheck/" + cartsId,
+						Object.class);
+				if (isCartPresent != null) {
+					orderModel.setCartId(cartsId);
+				}
+
 				List<AddressModel> addressList = new ArrayList<>();
 				addressId.stream().forEach(addId -> {
 					Optional<AddressModel> isAddressPresent = iAddressRepository.findById(addId);
@@ -70,15 +76,18 @@ public class OrderService implements IOrderService {
 						addressList.add(isAddressPresent.get());
 					}
 				});
-				
+
 				orderModel.setAddress(addressList);
 				iOrderRepository.save(orderModel);
-				
+
 				Long id = orderModel.getBookId();
 				int quantity = orderModel.getQuantity();
-			    restTemplate.put("https://book-service/books/updateQuantity/"+id+"?newQuantity="+quantity,ResponseClass.class);
-				
-			    return new ResponseClass(200, "success", orderModel);
+				restTemplate.put("https://book-service/books/updateQuantity/" + id + "?newQuantity=" + quantity,
+						ResponseClass.class);
+
+				restTemplate.delete("http://cart-service/cart/removeCart/" + cartsId);
+
+				return new ResponseClass(200, "success", orderModel);
 			}
 		}
 		throw new CustomExceptions(400, "token not valid");
@@ -101,10 +110,11 @@ public class OrderService implements IOrderService {
 				if (isOrderIdPresent.isPresent()) {
 					isOrderIdPresent.get().setCancel(true);
 					iOrderRepository.save(isOrderIdPresent.get());
-					
+
 					Long id = isOrderIdPresent.get().getBookId();
 					int quantity = isOrderIdPresent.get().getQuantity();
-					restTemplate.put("https://book-service/books/retrieveQuantity/"+id+"?newQuantity="+quantity,ResponseClass.class);
+					restTemplate.put("https://book-service/books/retrieveQuantity/" + id + "?newQuantity=" + quantity,
+							ResponseClass.class);
 					return new ResponseClass(200, "success", isOrderIdPresent.get());
 				}
 			}
@@ -131,7 +141,6 @@ public class OrderService implements IOrderService {
 		throw new CustomExceptions(400, "token not valid");
 	}
 
-
 	/**
 	 * Purpose:Creating method to get List of all cart
 	 * 
@@ -139,10 +148,13 @@ public class OrderService implements IOrderService {
 	 * @Param
 	 */
 	@Override
-	public List<OrderModel> getAllList() {
-		List<OrderModel> getList = iOrderRepository.findAll();
-		if (getList.size() > 0) {
-			return getList;
+	public List<OrderModel> getAllList(String token) {
+		boolean isUserPresent = restTemplate.getForObject(System.getenv("tokenCheck") + token, Boolean.class);
+		if (isUserPresent) {
+			List<OrderModel> getList = iOrderRepository.findAll();
+			if (getList.size() > 0) {
+				return getList;
+			}
 		}
 		throw new CustomExceptions(400, "no orders");
 	}
