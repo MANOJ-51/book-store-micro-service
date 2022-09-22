@@ -46,7 +46,9 @@ public class CartService implements ICartService {
 			Long usersId = tokenUtill.decodeToken(token);
 			BookResponse isBookPresent = restTemplate.getForObject(System.getenv("findBook") + bookId,
 					BookResponse.class);
-			if (!isBookPresent.equals(null) & isBookPresent.getBooks().getQuantity() < cartDto.getUserQuantity()) {
+			int storage = isBookPresent.getBooks().getQuantity();
+			int requried = cartDto.getUserQuantity();
+			if (!isBookPresent.equals(null)) {
 				CartModel cartModel = new CartModel(cartDto);
 				cartModel.setUserId(usersId);
 				cartModel.setBookId(bookId);
@@ -55,9 +57,8 @@ public class CartService implements ICartService {
 				cartModel.setTotalPrice(total);
 				iCartRepository.save(cartModel);
 				return new ResponseClass(200, "success", cartModel);
+				}
 			}
-		}
-
 		throw new CustomExceptions(400, "token not valid");
 	}
 
@@ -78,7 +79,7 @@ public class CartService implements ICartService {
 				if (isCartIdPresent.isPresent()) {
 					BookResponse isBookPresent = restTemplate.getForObject(
 							System.getenv("findBook") + isCartIdPresent.get().getBookId(), BookResponse.class);
-					if (!isBookPresent.equals(null) & isBookPresent.getBooks().getQuantity() < newUserQuantity) {
+					if (!isBookPresent.equals(null)) {
 						isCartIdPresent.get().setUserQuantity(newUserQuantity);
 						double total = isCartIdPresent.get().getUserQuantity() * isBookPresent.getBooks().getPrice();
 						isCartIdPresent.get().setTotalPrice(total);

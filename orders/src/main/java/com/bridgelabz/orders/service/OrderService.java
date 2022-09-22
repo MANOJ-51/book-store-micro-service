@@ -56,7 +56,7 @@ public class OrderService implements IOrderService {
 			OrderModel orderModel = new OrderModel(orderDto);
 			BookResponse isBookPresent = restTemplate.getForObject(System.getenv("findBook") + orderDto.getBookId(),
 					BookResponse.class);
-			if (!isBookPresent.equals(null) & isBookPresent.getBooks().getQuantity() < orderDto.getQuantity()) {
+			if (!isBookPresent.equals(null)) {
 				double total = isBookPresent.getBooks().getPrice() * orderDto.getQuantity();
 				orderModel.setOrderDate(LocalDate.now());
 				orderModel.setPrice(total);
