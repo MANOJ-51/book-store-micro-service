@@ -46,9 +46,8 @@ public class CartService implements ICartService {
 			Long usersId = tokenUtill.decodeToken(token);
 			BookResponse isBookPresent = restTemplate.getForObject(System.getenv("findBook") + bookId,
 					BookResponse.class);
-			int storage = isBookPresent.getBooks().getQuantity();
-			int requried = cartDto.getUserQuantity();
-			if (!isBookPresent.equals(null)) {
+		
+			if (!isBookPresent.equals(null) & isBookPresent.getBooks().getQuantity() > cartDto.getUserQuantity()) {
 				CartModel cartModel = new CartModel(cartDto);
 				cartModel.setUserId(usersId);
 				cartModel.setBookId(bookId);
@@ -79,7 +78,7 @@ public class CartService implements ICartService {
 				if (isCartIdPresent.isPresent()) {
 					BookResponse isBookPresent = restTemplate.getForObject(
 							System.getenv("findBook") + isCartIdPresent.get().getBookId(), BookResponse.class);
-					if (!isBookPresent.equals(null)) {
+					if (!isBookPresent.equals(null) & isBookPresent.getBooks().getQuantity() > newUserQuantity) {
 						isCartIdPresent.get().setUserQuantity(newUserQuantity);
 						double total = isCartIdPresent.get().getUserQuantity() * isBookPresent.getBooks().getPrice();
 						isCartIdPresent.get().setTotalPrice(total);
