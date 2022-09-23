@@ -1,9 +1,6 @@
 package com.bridgelabz.orders.controller;
 
 import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.bridgelabz.orders.dto.OrderDTO;
 import com.bridgelabz.orders.model.OrderModel;
 import com.bridgelabz.orders.service.IOrderService;
 import com.bridgelabz.orders.utill.ResponseClass;
@@ -41,9 +36,9 @@ public class OrderController {
 	 * @Param dto,token
 	 */
 	@PostMapping("/placeOrder")
-	public ResponseEntity<ResponseClass> placeOrder(@RequestHeader String token,@RequestParam List<Long> addressId,
-			@RequestBody @Valid OrderDTO orderDto,@RequestParam Long cartsId) {
-		ResponseClass responseClass = iOrderService.placeOrder(token,addressId, orderDto,cartsId);
+	public ResponseEntity<ResponseClass> placeOrder(@RequestHeader String token, @RequestParam List<Long> addressId,
+			@RequestParam Long cartsId) {
+		ResponseClass responseClass = iOrderService.placeOrder(token, addressId, cartsId);
 		return new ResponseEntity<>(responseClass, HttpStatus.OK);
 	}
 
@@ -79,7 +74,7 @@ public class OrderController {
 	 */
 	@GetMapping("/orderList")
 	public ResponseEntity<List<?>> getAllList(@RequestHeader String token) {
-		List<OrderModel> responseClass = iOrderService.getAllList( token);
+		List<OrderModel> responseClass = iOrderService.getAllList(token);
 		return new ResponseEntity<>(responseClass, HttpStatus.OK);
 	}
 }

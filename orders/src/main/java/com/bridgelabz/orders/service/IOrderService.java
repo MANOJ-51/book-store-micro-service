@@ -1,10 +1,6 @@
 package com.bridgelabz.orders.service;
 
 import java.util.List;
-
-import javax.validation.Valid;
-
-import com.bridgelabz.orders.dto.OrderDTO;
 import com.bridgelabz.orders.model.OrderModel;
 import com.bridgelabz.orders.utill.ResponseClass;
 
@@ -16,7 +12,7 @@ import com.bridgelabz.orders.utill.ResponseClass;
  */
 public interface IOrderService {
 
-	ResponseClass placeOrder(String token, List<Long> addressId ,@Valid OrderDTO orderDto,Long cartsId);
+	ResponseClass placeOrder(String token, List<Long> addressId, Long cartsId);
 
 	ResponseClass cancleOrder(String token, Long orderId);
 
